@@ -1,0 +1,104 @@
+{
+    "incomes": [
+        { "name": "Absar Bhai", "amount": "5000" },
+        { "name": "Rezvi's personal site", "amount": "26000" },
+        { "name": "Inads Landing page", "amount": "17000" },
+        { "name": "Sold old CPU, Motherboard & RAM", "amount": "3000" },
+        { "name": "Content writing client", "amount": "965" },
+        { "name": "Loan from dad", "amount": "140" },
+        { "name": "Savings", "amount": "70" },
+        { "name": "Mizzeon (Down Payment)", "amount": "80000" },
+        { "name": "Sold Keyboard (Havit KB857L)", "amount": "1300" },
+        { "name": "Sold RAM (PNY 8GB 2666Mhz)", "amount": "1867" },
+        { "name": "Salami", "amount": "3745" },
+        { "name": "Gift", "amount": "500" },
+        { "name": "Mizzeon", "amount": "10000" },
+        { "name": "Gift", "amount": "2000" },
+        { "name": "Sold Headphone", "amount": "2000" }
+    ],
+
+    "expenses": [
+        { "name": "iPhone X", "amount": "12000" },
+        { "name": "Router (TP-Link Archer C64)", "amount": "3260" },
+        { "name": "Backpack", "amount": "765", "badPurchase": true },
+        { "name": "Laptop Fix", "amount": "505", "badPurchase": true },
+        { "name": "Joggers", "amount": "1015" },
+        { "name": "Spotify (Oct 26)", "amount": "100" },
+        { "name": "Spotify (Dec 26)", "amount": "120" },
+        { "name": "Spotify (Jan 26)", "amount": "100" },
+        { "name": "Anker PowerPort PD Nano 18W Charger", "amount": "1550" },
+        { "name": "Apple Type-C to Lightning Cable", "amount": "1050" },
+        { "name": "1 Hoodie", "amount": "390", "badPurchase": true },
+        {
+            "name": "Gigabyte AMP900 Extended Gaming Mouse Pad",
+            "amount": "825"
+        },
+        { "name": "Ryzen 5 5600G + MSI A320M-A Pro", "amount": "19878" },
+        { "name": "PNY PERFORMANCE 8GB DDR4 2666Mhz RAM", "amount": "2820" },
+        { "name": "Razer Viper Mini", "amount": "2580" },
+        { "name": "4 Solid Tshirts", "amount": "720", "badPurchase": true },
+        { "name": "PC Case", "amount": "2160" },
+        { "name": "GIGABYTE G34WQC 34 inch Monitor", "amount": "46000" },
+        {
+            "name": "Corsair K65 Mini 60% Mechanical Keyboard",
+            "amount": "8000"
+        },
+        {
+            "name": "3 x Foam Jaynamaz",
+            "amount": "2820"
+        },
+        {
+            "name": "2 x G.Skill Ripjaws V 16GB DDR4 3200MHz RAM",
+            "amount": "9760"
+        },
+        {
+            "name": "Antec NeoEco Gold 750W Modular Power Supply",
+            "amount": "9500"
+        },
+        {
+            "name": "Super Glue",
+            "amount": "30"
+        },
+        {
+            "name": "Thermal Paste",
+            "amount": "50"
+        },
+        {
+            "name": "Netflix (27th March)",
+            "amount": "100"
+        },
+        { "name": "Spotify (Mar 29)", "amount": "100" },
+        { "name": "Lost", "amount": "500", "badPurchase": true },
+        { "name": "Charity", "amount": "2318" },
+        { "name": "Deo", "amount": "390" },
+        { "name": "Salami", "amount": "300" },
+        {
+            "name": "Netflix (25th April)",
+            "amount": "50"
+        },
+        {
+            "name": "Food",
+            "amount": "9331"
+        },
+        {
+            "name": "Games",
+            "amount": "4700"
+        },
+        {
+            "name": "Breakfast",
+            "amount": "350"
+        },
+        {
+            "name": "Coffee",
+            "amount": "550"
+        },
+        { "name": "Spotify", "amount": "100" },
+        { "name": "Food", "amount": "1822" },
+        { "name": "Spotify", "amount": "100" },
+        { "name": "Unknown", "amount": "1658" },
+        { "name": "Logitech G333 (Gaming Earphones)", "amount": "4550" },
+        { "name": "Earphone Splitter", "amount": "115" },
+        { "name": "Food", "amount": "290" },
+        { "name": "Donation to Palestine", "amount": "135" }
+    ]
+}
