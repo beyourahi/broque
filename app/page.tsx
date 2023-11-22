@@ -2,62 +2,48 @@ import data from "@/data.json";
 
 const { incomes, expenses }: Data = data;
 
-const Home = () => {
-    let totalIncome = 0;
-    let totalExpenses = 0;
-    let balance = 0;
+// Home Component
+const Home = () => (
+    <div className="flex min-h-screen justify-center bg-gray-800 p-4">
+        <div className="w-full max-w-2xl">
+            <Balance incomes={incomes} expenses={expenses} />
+            <MoneyList items={incomes} title="Incomes" />
+            <MoneyList items={expenses} title="Expenses" />
+        </div>
+    </div>
+);
 
-    incomes.forEach((item: Income) => (totalIncome += Number(item.amount)));
-    expenses.forEach((item: Expense) => (totalExpenses += Number(item.amount)));
-    balance = totalIncome - totalExpenses;
+// MoneyList Component
+const MoneyList = ({ items, title }: MoneyList) => (
+    <div className="my-4">
+        <h2 className="mb-2 text-2xl font-bold text-white">{title}</h2>
+        <div className="space-y-2">
+            {items.map((item, index) => (
+                <MoneyItem key={index} item={item} />
+            ))}
+        </div>
+    </div>
+);
+
+// MoneyItem Component
+const MoneyItem = ({ item }: MoneyItem) => (
+    <div className="flex items-center justify-between rounded-md bg-gray-700 p-3 transition-colors hover:bg-gray-600">
+        <span className="font-semibold text-white">{item.name}</span>
+        <span className="text-green-400">৳{item.amount}</span>
+    </div>
+);
+
+// Balance Component
+const Balance = ({ incomes, expenses }: Balance) => {
+    const totalIncome = incomes.reduce((acc, item) => acc + parseFloat(item.amount), 0);
+    const totalExpense = expenses.reduce((acc, item) => acc + parseFloat(item.amount), 0);
+    const balance = totalIncome - totalExpense;
 
     return (
-        <main className="flex flex-col items-center">
-            {/*//! Balance */}
-            <h1 className="my-24 text-5xl font-extrabold">
-                Balance: {balance.toLocaleString()} /-
-            </h1>
-
-            <div className="flex space-x-52">
-                {/*//! Incomes */}
-                <div className="space-y-10">
-                    <h1 className="text-3xl font-bold">
-                        Total Income: {totalIncome.toLocaleString()} /-
-                    </h1>
-                    <div className="divide-y-2 divide-white/30">
-                        {incomes.map((income, index) => (
-                            <p key={index} className="text-md py-4">
-                                {income.name} -{" "}
-                                <span className="font-bold">
-                                    {Number(income.amount).toLocaleString()} /-
-                                </span>
-                            </p>
-                        ))}
-                    </div>
-                    <br />
-                </div>
-                {/*//! Expenses */}
-                <div className="space-y-10">
-                    <h1 className="text-3xl font-bold">
-                        Total Expenses: {totalExpenses.toLocaleString()} /-
-                    </h1>
-                    <div className="divide-y-2 divide-white/30">
-                        {expenses.map((expense, index) => (
-                            <p
-                                key={index}
-                                className={`text-md py-4 ${expense.badPurchase && `bg-red-500`}`}
-                            >
-                                {expense.name} -{" "}
-                                <span className="font-bold">
-                                    {Number(expense.amount).toLocaleString()} /-
-                                </span>
-                            </p>
-                        ))}
-                    </div>
-                    <br />
-                </div>
-            </div>
-        </main>
+        <div className="my-4 rounded-md bg-gray-700 py-4 text-center text-white">
+            <h2 className="text-2xl font-bold">Current Balance</h2>
+            <p className="text-xl font-semibold text-green-400">৳{balance.toFixed(2)}</p>
+        </div>
     );
 };
 
