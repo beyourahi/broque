@@ -1,25 +1,17 @@
 "use client";
 
-import { signIn } from "next-auth/react";
-import { FcGoogle } from "react-icons/fc";
+import { LoginButton } from "components/LoginButton";
 
-const LoginModal = () => (
+const Login = () => (
     <div className="flex h-screen flex-col items-center justify-center">
-        <div className="space-y-6">
-            <h2 className="text-left text-xl sm:text-3xl">
+        <div className="flex w-full max-w-sm flex-col items-center space-y-6 px-12">
+            <h2 className="text-2xl sm:text-3xl">
                 <span className="font-black text-white">One click login</span> <br />
             </h2>
 
-            <div className="flex w-full items-center justify-center space-x-2">
-                <button
-                    className="flex w-full items-center justify-center space-x-4 rounded-xl border-2 border-slate-200 bg-slate-50 py-4 text-2xl transition-all duration-300 ease-in-out hover:scale-95 active:scale-90 xl:text-3xl"
-                    onClick={() => signIn("google", { callbackUrl: "/" })}
-                >
-                    <FcGoogle />
-                </button>
-            </div>
+            <LoginButton />
         </div>
     </div>
 );
 
-export default LoginModal;
+export default Login;
