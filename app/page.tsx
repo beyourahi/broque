@@ -1,20 +1,16 @@
 import { getAll } from "@vercel/edge-config";
-
-export const runtime = "edge";
-
-//! Format Currency
-const formatCurrency = (amount: number) =>
-    new Intl.NumberFormat("en-US", {
-        style: "decimal",
-        minimumFractionDigits: 2, // Ensures two decimal places
-        maximumFractionDigits: 2 // Limits to two decimal places
-    })
-        .format(amount)
-        .replace(/(\.\d*?[1-9])0+$|\.0*$/, "$1");
+import { authOptions, formatCurrency } from "lib";
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 
 //! Home Component
 const Home = async () => {
+    const session = await getServerSession(authOptions);
     const { incomes, expenses }: Data = await getAll();
+
+    if (!session) redirect("/login");
+
+    if (session?.user?.name !== "beyourahi@gmail.com") redirect("/login");
 
     return (
         <div className="flex min-h-screen justify-center p-4">

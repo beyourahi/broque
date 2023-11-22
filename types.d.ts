@@ -1,3 +1,5 @@
+interface ContextData {}
+
 interface Income {
     name: string;
     amount: number;

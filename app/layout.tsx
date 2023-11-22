@@ -1,5 +1,6 @@
 import "./globals.css";
 import { PropsWithChildren } from "react";
+import { Providers } from "./providers";
 
 export const metadata = {
     title: "Broke Af",
@@ -8,7 +9,9 @@ export const metadata = {
 
 const RootLayout = ({ children }: PropsWithChildren) => (
     <html lang="en" className="scroll-smooth bg-black text-white">
-        <body>{children}</body>
+        <body>
+            <Providers>{children}</Providers>
+        </body>
     </html>
 );
 
