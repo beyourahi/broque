@@ -1,12 +1,14 @@
 interface Income {
     name: string;
-    amount: string;
+    amount: number;
+    type: "income";
 }
 
 interface Expense {
     name: string;
-    amount: string;
+    amount: number;
     badPurchase?: boolean;
+    type: "expense";
 }
 
 interface Data {
