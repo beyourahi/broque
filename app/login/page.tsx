@@ -1,15 +1,18 @@
-"use client";
-
-import { LoginButton } from "components/LoginButton";
+import { LoginLink } from "@kinde-oss/kinde-auth-nextjs/components";
 
 const Login = () => (
-    <div className="flex h-screen flex-col items-center justify-center">
-        <div className="flex w-full max-w-sm flex-col items-center space-y-6 px-12">
-            <h2 className="text-2xl sm:text-3xl">
-                <span className="font-black text-white">One click login</span> <br />
+    <div className="flex flex-grow flex-col items-center justify-center">
+        <div className="flex flex-col items-center gap-8 px-4">
+            <h2 className="text-center text-2xl font-black text-white sm:text-3xl">
+                Hold up right there bruh ✋🏻
             </h2>
 
-            <LoginButton />
+            <LoginLink
+                postLoginRedirectURL="/"
+                className="transform-gpu rounded-xl bg-white/40 px-12 py-3.5 font-bold text-white transition-all duration-300 ease-in-out hover:bg-white/20"
+            >
+                Log in
+            </LoginLink>
         </div>
     </div>
 );

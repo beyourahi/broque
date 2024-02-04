@@ -18,13 +18,6 @@ interface Data {
     expenses: Expense[];
 }
 
-interface Balance extends Data {}
-
-interface MoneyList {
-    items: Income[] | Expense[];
-    title: string;
-}
-
 interface MoneyItem {
     item: Income | Expense;
 }

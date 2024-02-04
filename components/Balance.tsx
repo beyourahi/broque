@@ -1,13 +1,16 @@
 import { formatCurrency } from "lib";
+import { getAll } from "@vercel/edge-config";
 
-export const Balance = ({ incomes, expenses }: Balance) => {
+export const Balance = async () => {
+    const { incomes, expenses }: Data = await getAll();
+
     const totalIncome = incomes.reduce((acc, item) => acc + item.amount, 0);
     const totalExpense = expenses.reduce((acc, item) => acc + item.amount, 0);
     const balance = totalIncome - totalExpense;
 
     return (
         <div className="space-y-12 rounded-md bg-white bg-opacity-10 p-8 text-center shadow-2xl">
-            <h2 className="text-4xl font-bold text-gray-200">Financial Summary</h2>
+            <h2 className="text-4xl font-bold text-gray-200">Financial Summary (Lifetime)</h2>
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
                 <div>

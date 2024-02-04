@@ -3,9 +3,8 @@ const nextConfig = {
     images: {
         formats: ["image/avif", "image/webp"],
         remotePatterns: [
-            {
-                hostname: "lh3.googleusercontent.com"
-            }
+            { hostname: "lh3.googleusercontent.com" },
+            { hostname: "avatars.githubusercontent.com" }
         ]
     }
 };
