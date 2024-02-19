@@ -2,6 +2,7 @@ import { formatCurrency } from "lib";
 import { getAll } from "@vercel/edge-config";
 
 export const Balance = async () => {
+    // @ts-ignore
     const { incomes, expenses }: Data = await getAll();
 
     const totalIncome = incomes.reduce((acc, item) => acc + item.amount, 0);
