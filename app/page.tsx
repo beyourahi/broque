@@ -10,8 +10,13 @@ const Home = async () => {
     const { getUser, isAuthenticated: auth } = getKindeServerSession();
     const user = await getUser();
     const isAuthenticated = await auth();
+    const permitted_users = [
+        "beyourahi@gmail.com",
+        "rahikhan360@gmail.com",
+        "preetyfarihaafreen@gmail.com"
+    ];
 
-    if (!isAuthenticated || user?.email !== "beyourahi@gmail.com") redirect("/login");
+    if (!isAuthenticated || !permitted_users.includes(user?.email!)) redirect("/login");
 
     return (
         <div className="flex flex-grow justify-center p-4">
