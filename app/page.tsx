@@ -13,7 +13,6 @@ const Home = async () => {
     const permitted_users = [
         "beyourahi@gmail.com",
         "rahikhan360@gmail.com",
-        "preetyfarihaafreen@gmail.com"
     ];
 
     if (!isAuthenticated || !permitted_users.includes(user?.email!)) redirect("/login");
