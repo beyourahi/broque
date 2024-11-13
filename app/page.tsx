@@ -4,15 +4,25 @@ import Image from "next/image";
 import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { getAll } from "@vercel/edge-config";
-import { TrendingUp, TrendingDown, Wallet2, LogOut, Clock, ArrowUpRight } from "lucide-react";
+import {
+    TrendingUp,
+    TrendingDown,
+    Wallet2,
+    LogOut,
+    Activity,
+    DollarSign,
+    ChevronRight
+} from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import bossman from "@/public/bossman.webp";
 
-// Types remain the same
+// Types
 interface User {
+    family_name: string | null;
+    given_name: string | null;
     email: string | null;
     picture?: string | null;
 }
@@ -41,6 +51,27 @@ interface FinancialSummary {
     balance: number;
     incomeCount: number;
     expenseCount: number;
+}
+
+interface NavbarProps {
+    user: User;
+}
+
+interface BalanceCardProps {
+    label: string;
+    amount: number;
+    trend?: "up" | "down";
+    entries?: number;
+    isMain?: boolean;
+}
+
+interface BalanceProps {
+    summary: FinancialSummary;
+}
+
+interface TransactionProps {
+    title: "Incomes" | "Expenses";
+    items: (Income | Expense)[];
 }
 
 const PERMITTED_USERS = [
@@ -73,40 +104,50 @@ const calculateFinancialSummary = (data: FinancialData): FinancialSummary => {
     };
 };
 
-// Components
-interface NavbarProps {
-    user: User;
-}
-
 const Navbar: FC<NavbarProps> = ({ user }) => (
-    <Card className="border-0 bg-zinc-900/40 backdrop-blur-xl">
-        <CardContent className="flex h-20 items-center justify-between p-6">
-            <div className="flex items-center gap-3">
-                <div className="rounded-xl bg-zinc-900 p-2 ring-1 ring-white/10">
-                    <Wallet2 className="h-6 w-6 text-emerald-500" />
+    <Card className="border-0 bg-gradient-to-r from-zinc-900 via-black/50 to-black drop-shadow-lg backdrop-blur-2xl backdrop-filter">
+        <CardContent className="flex h-auto flex-col items-center justify-between p-4 md:h-24 md:flex-row md:p-8">
+            <div className="flex items-center gap-4 md:gap-5">
+                <div className="rounded-2xl bg-gradient-to-br from-emerald-400 to-emerald-600 p-2 shadow-lg shadow-emerald-500/30 ring-4 ring-emerald-500/10 md:p-3">
+                    <Wallet2 className="h-6 w-6 text-white md:h-7 md:w-7" />
                 </div>
-                <h1 className="text-xl font-semibold tracking-tight text-white/90">Broke AF 😭</h1>
+                <div className="flex flex-col text-center md:text-left">
+                    <h1 className="text-2xl font-bold tracking-tight text-white md:text-3xl">
+                        Broke AF 😭
+                    </h1>
+                    <span className="text-sm font-medium text-white/50">
+                        Tracking my severely underpaid income and pesky expenses
+                    </span>
+                </div>
             </div>
 
-            <div className="flex items-center gap-4">
-                <div className="relative h-9 w-9 overflow-hidden rounded-full ring-2 ring-emerald-500/20">
-                    <Image
-                        src={user.picture || bossman}
-                        alt="User avatar"
-                        fill
-                        className="object-cover"
-                        priority={true}
-                    />
+            <div className="mt-4 flex flex-col items-center gap-6 md:mt-0 md:flex-row md:gap-8">
+                <div className="flex items-center gap-4">
+                    <div className="relative h-10 w-10 overflow-hidden rounded-full md:h-12 md:w-12">
+                        <Image
+                            src={user.picture || bossman}
+                            alt="User avatar"
+                            fill
+                            className="object-cover"
+                            priority={true}
+                        />
+                    </div>
+                    <div className="hidden flex-col md:flex">
+                        <span className="text-sm text-muted-foreground">
+                            {user.given_name} {user.family_name}
+                        </span>
+                        <span className="font-medium text-white">{user.email}</span>
+                    </div>
                 </div>
 
                 <LogoutLink>
                     <Button
                         variant="outline"
                         size="lg"
-                        className="border-0 bg-zinc-900 px-4 font-semibold uppercase text-white/70 transition-all duration-200 ease-in-out hover:bg-red-500/10 hover:!text-red-500 hover:text-white/90"
+                        className="border-0 bg-white/5 px-6 font-medium text-white/80 transition-all duration-300 ease-out hover:bg-red-500/20 hover:text-red-500"
                     >
-                        <LogOut />
-                        <span>Log Out</span>
+                        <LogOut className="mr-2 h-4 w-4" />
+                        <span>Sign Out</span>
                     </Button>
                 </LogoutLink>
             </div>
@@ -114,29 +155,28 @@ const Navbar: FC<NavbarProps> = ({ user }) => (
     </Card>
 );
 
-interface BalanceCardProps {
-    label: string;
-    amount: number;
-    trend?: "up" | "down";
-    entries?: number;
-    isMain?: boolean;
-}
-
 const BalanceCard: FC<BalanceCardProps> = ({ label, amount, trend, entries, isMain }) => (
     <Card
-        className={`group rounded-2xl border-0 transition-all ${
+        className={`group relative overflow-hidden rounded-3xl border-0 transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl ${
             isMain
-                ? "border-0 bg-gradient-to-br from-zinc-900/90 to-black backdrop-blur-xl"
-                : "border-white/5 bg-zinc-900/40 hover:bg-zinc-900/60"
+                ? "bg-gradient-to-br from-emerald-400 to-emerald-900 backdrop-blur-lg backdrop-filter"
+                : "bg-gradient-to-br from-black/60 to-black/40"
         }`}
     >
-        <CardContent className="p-6">
+        <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent transition-opacity duration-300 xl:opacity-70 xl:group-hover:opacity-100" />
+        <CardContent className="p-6 md:p-8">
             <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-white/50">{label}</span>
+                <span
+                    className={`text-sm font-medium ${isMain ? "text-white/90" : "text-white/60"}`}
+                >
+                    {label}
+                </span>
                 {trend && (
-                    <div
-                        className={`flex items-center gap-1 ${
-                            trend === "up" ? "text-emerald-500" : "text-rose-500"
+                    <Badge
+                        className={`flex items-center gap-1.5 rounded-full ${
+                            trend === "up"
+                                ? "bg-emerald-500/20 text-emerald-400"
+                                : "bg-rose-500/20 text-rose-400"
                         }`}
                     >
                         {trend === "up" ? (
@@ -144,31 +184,33 @@ const BalanceCard: FC<BalanceCardProps> = ({ label, amount, trend, entries, isMa
                         ) : (
                             <TrendingDown className="h-4 w-4" />
                         )}
-                    </div>
+                    </Badge>
                 )}
             </div>
 
-            <div className="mt-3 flex items-end justify-between">
-                <div className="space-y-1">
+            <div className="mt-4 flex items-end justify-between">
+                <div className="space-y-2 md:space-y-3">
                     <span
                         className={`block font-mono ${
                             isMain
-                                ? "text-4xl font-bold text-white"
-                                : "text-2xl font-semibold text-white/80"
+                                ? "text-5xl font-bold text-white md:text-6xl"
+                                : "text-3xl font-semibold text-white/90 md:text-4xl"
                         }`}
                     >
-                        ৳{formatCurrency(amount)}
+                        {formatCurrency(amount)}
                     </span>
                     {entries !== undefined && (
-                        <div className="flex items-center gap-1.5 text-xs font-medium text-white/30">
-                            <Clock className="h-3.5 w-3.5" />
-                            <span>{entries} transactions</span>
-                        </div>
+                        <Badge className="flex w-fit items-center gap-2 rounded-full bg-white/10 text-xs md:text-sm">
+                            <Activity className="h-3.5 w-3.5 text-white/70" />
+                            <span className="text-xs font-medium text-white/70">
+                                {entries} transactions
+                            </span>
+                        </Badge>
                     )}
                 </div>
                 {isMain && (
-                    <div className="rounded-lg bg-emerald-500/10 p-2 transition-colors group-hover:bg-emerald-500/20">
-                        <ArrowUpRight className="h-5 w-5 text-emerald-500" />
+                    <div className="rounded-xl bg-white/10 p-2 transition-colors duration-300 group-hover:bg-white/20 md:p-3">
+                        <DollarSign className="h-6 w-6 text-white md:h-7 md:w-7" />
                     </div>
                 )}
             </div>
@@ -176,82 +218,74 @@ const BalanceCard: FC<BalanceCardProps> = ({ label, amount, trend, entries, isMa
     </Card>
 );
 
-interface BalanceProps {
-    summary: FinancialSummary;
-}
-
 const Balance: FC<BalanceProps> = ({ summary }) => (
-    <div className="space-y-6">
-        <div className="flex items-center justify-between">
-            <h2 className="text-lg font-medium text-white/50">Financial Overview</h2>
-            <span className="text-sm text-white/30">Last Updated: Today</span>
-        </div>
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            <BalanceCard label="Current Balance" amount={summary.balance} isMain />
-            <BalanceCard
-                label="Total Income"
-                amount={summary.totalIncome}
-                trend="up"
-                entries={summary.incomeCount}
-            />
-            <BalanceCard
-                label="Total Expenses"
-                amount={summary.totalExpense}
-                trend="down"
-                entries={summary.expenseCount}
-            />
-        </div>
+    <div className="grid gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3">
+        <BalanceCard label="Current Balance" amount={summary.balance} isMain />
+        <BalanceCard
+            label="Total Income"
+            amount={summary.totalIncome}
+            trend="up"
+            entries={summary.incomeCount}
+        />
+        <BalanceCard
+            label="Total Expense"
+            amount={summary.totalExpense}
+            trend="down"
+            entries={summary.expenseCount}
+        />
     </div>
 );
 
-interface TransactionProps {
-    title: "Incomes" | "Expenses";
-    items: (Income | Expense)[];
-}
-
 const TransactionList: FC<TransactionProps> = ({ title, items }) => (
-    <div className="space-y-4">
+    <div className="space-y-5">
         <div className="flex items-center justify-between">
-            <h2 className="text-lg font-medium text-white/50">{title}</h2>
-            <Badge
-                variant="outline"
-                className="rounded-full border-0 bg-zinc-900 py-1 text-white/40"
-            >
-                {items.length}
+            <h2 className="text-xl font-semibold text-white/90">{title}</h2>
+            <Badge className="flex w-fit items-center gap-2 rounded-full bg-white/10 text-xs active:bg-white/10 md:text-sm xl:hover:bg-white/10">
+                <Activity className="h-3.5 w-3.5 text-white/70" />
+                <span className="text-xs font-medium text-white/70">{items.length}</span>
             </Badge>
         </div>
 
-        <Card className="rounded-2xl border-0 border-white/5 bg-zinc-900/40 p-1 backdrop-blur-sm">
-            <CardContent className="p-1">
+        <Card className="overflow-hidden rounded-3xl border-0 bg-gradient-to-br from-black/60 to-black/40 backdrop-blur-lg">
+            <CardContent className="p-3">
                 {items.map((item, index) => (
-                    <div key={`${item.name}-${index}`} className="flex flex-col gap-1.5">
-                        {index > 0 && <Separator className="mt-1.5 bg-white/5" />}
-                        <div className="group flex items-center justify-between rounded-xl p-3 transition-all hover:bg-zinc-900">
-                            <div className="flex items-center gap-3">
+                    <div key={`${item.name}-${index}`} className="flex flex-col">
+                        {index > 0 && <Separator className="my-1 bg-white/10" />}
+                        <div className="group flex cursor-pointer items-center justify-between rounded-xl p-4 transition-all duration-300 hover:bg-white/10">
+                            <div className="flex items-center gap-4">
                                 <div
-                                    className={`rounded-lg p-2 ${
+                                    className={`rounded-xl p-3 ring-1 transition-colors duration-300 ${
                                         item.type === "income"
-                                            ? "bg-emerald-500/10 text-emerald-500"
-                                            : "bg-rose-500/10 text-rose-500"
+                                            ? "bg-emerald-500/20 text-emerald-400 ring-emerald-500/30 group-hover:bg-emerald-500/30"
+                                            : "bg-rose-500/20 text-rose-400 ring-rose-500/30 group-hover:bg-rose-500/30"
                                     }`}
                                 >
                                     {item.type === "income" ? (
-                                        <TrendingUp className="h-4 w-4" />
+                                        <TrendingUp className="h-5 w-5" />
                                     ) : (
-                                        <TrendingDown className="h-4 w-4" />
+                                        <TrendingDown className="h-5 w-5" />
                                     )}
                                 </div>
-                                <span className="font-medium text-white/80 group-hover:text-white">
-                                    {item.name}
-                                </span>
+                                <div className="flex flex-col gap-1">
+                                    <span className="font-medium text-white/90 transition-colors group-hover:text-white">
+                                        {item.name}
+                                    </span>
+                                    {/* <span className="text-xs font-medium text-white/40">Today</span> */}
+                                </div>
                             </div>
-                            <span
-                                className={`font-mono font-bold ${
-                                    item.type === "income" ? "text-emerald-500" : "text-rose-500"
-                                }`}
-                            >
-                                {item.type === "income" ? "+" : "-"}৳{formatCurrency(item.amount)}
-                            </span>
+                            <div className="flex items-center gap-3">
+                                <span
+                                    className={`font-mono text-lg font-bold tracking-tight ${
+                                        item.type === "income"
+                                            ? "text-emerald-400"
+                                            : "text-rose-400"
+                                    }`}
+                                >
+                                    {item.type === "income" ? "+" : "-"}
+                                    {formatCurrency(item.amount)}
+                                </span>
+                                <ChevronRight className="h-5 w-5 text-white/20 transition-transform duration-300 group-hover:translate-x-1 group-hover:text-white/40" />
+                            </div>
                         </div>
                     </div>
                 ))}
@@ -260,7 +294,6 @@ const TransactionList: FC<TransactionProps> = ({ title, items }) => (
     </div>
 );
 
-// Main Page Component
 export const runtime = "edge";
 
 export default async function Home() {
@@ -276,12 +309,11 @@ export default async function Home() {
     const summary = calculateFinancialSummary(data);
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-black via-zinc-950 to-zinc-900 p-4 md:p-8">
-            <div className="mx-auto max-w-7xl space-y-8">
+        <div className="min-h-screen bg-gradient-to-br from-zinc-950 via-black to-zinc-900 p-8 md:p-10">
+            <div className="mx-auto max-w-[2000px] space-y-12">
                 <Navbar user={user} />
                 <Balance summary={summary} />
-
-                <div className="grid gap-8 md:grid-cols-2">
+                <div className="grid gap-10 md:grid-cols-2">
                     <TransactionList title="Incomes" items={data.incomes} />
                     <TransactionList title="Expenses" items={data.expenses} />
                 </div>
