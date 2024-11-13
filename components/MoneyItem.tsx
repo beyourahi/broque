@@ -1,4 +1,4 @@
-import { formatCurrency } from "lib";
+import { formatCurrency } from "@/lib/utils";
 
 export const MoneyItem = ({ item }: MoneyItem) => (
     <div className="flex items-center justify-between rounded-lg p-4 transition-all duration-300 ease-in-out lg:hover:bg-white lg:hover:bg-opacity-10">

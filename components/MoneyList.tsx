@@ -2,7 +2,6 @@ import { MoneyItem } from "./MoneyItem";
 import { getAll } from "@vercel/edge-config";
 
 export const MoneyList = async ({ title }: { title: string }) => {
-    // @ts-ignore
     const { incomes, expenses }: Data = await getAll();
     const items = title === "Incomes" ? incomes : expenses;
 

@@ -1,6 +1,6 @@
-import { Balance } from "components/Balance";
-import { MoneyList } from "components/MoneyList";
-import { Navbar } from "components/Navbar";
+import { Balance } from "@/components/Balance";
+import { MoneyList } from "@/components/MoneyList";
+import { Navbar } from "@/components/Navbar";
 import { redirect } from "next/navigation";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
@@ -16,7 +16,7 @@ const Home = async () => {
         "preetyfarihaafreen@gmail.com"
     ];
 
-    if (!isAuthenticated || !permitted_users.includes(user?.email!)) redirect("/login");
+    if (!isAuthenticated || !permitted_users.includes(user.email!)) redirect("/login");
 
     return (
         <div className="flex flex-grow justify-center p-4">

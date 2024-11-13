@@ -1,4 +1,4 @@
-interface ContextData {}
+type ContextData = object;
 
 interface Income {
     name: string;
