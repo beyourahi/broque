@@ -1,4 +1,3 @@
-import { FC } from "react";
 import { redirect } from "next/navigation";
 import Image from "next/image";
 import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
@@ -18,6 +17,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import bossman from "@/public/bossman.webp";
+
+export const runtime = "edge";
 
 // Types
 interface User {
@@ -80,7 +81,6 @@ const PERMITTED_USERS = [
     "preetyfarihaafreen@gmail.com"
 ];
 
-// Utility Functions
 const formatCurrency = (amount: number): string => {
     return new Intl.NumberFormat("en-US", {
         style: "decimal",
@@ -104,8 +104,8 @@ const calculateFinancialSummary = (data: FinancialData): FinancialSummary => {
     };
 };
 
-const Navbar: FC<NavbarProps> = ({ user }) => (
-    <Card className="border-0 bg-gradient-to-r from-zinc-900 via-black/50 to-black drop-shadow-lg backdrop-blur-2xl backdrop-filter">
+const Navbar = ({ user }: NavbarProps) => (
+    <Card className="rounded-2xl border-0 bg-gradient-to-r from-zinc-900 via-black/50 to-black drop-shadow-lg backdrop-blur-2xl backdrop-filter">
         <CardContent className="flex h-auto flex-col items-center justify-between p-4 md:h-24 md:flex-row md:p-8">
             <div className="flex items-center gap-4 md:gap-5">
                 <div className="rounded-2xl bg-gradient-to-br from-emerald-400 to-emerald-600 p-2 shadow-lg shadow-emerald-500/30 ring-4 ring-emerald-500/10 md:p-3">
@@ -155,12 +155,12 @@ const Navbar: FC<NavbarProps> = ({ user }) => (
     </Card>
 );
 
-const BalanceCard: FC<BalanceCardProps> = ({ label, amount, trend, entries, isMain }) => (
+const BalanceCard = ({ label, amount, trend, entries, isMain }: BalanceCardProps) => (
     <Card
         className={`group relative overflow-hidden rounded-3xl border-0 transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl ${
             isMain
-                ? "bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-900 backdrop-blur-lg backdrop-filter"
-                : "bg-gradient-to-br from-black/60 to-black/40"
+                ? "bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-900 backdrop-blur-lg backdrop-filter sm:col-span-2 xl:col-span-1"
+                : "bg-gradient-to-br from-black/60 to-black/40 xl:col-span-1"
         }`}
     >
         <div
@@ -170,7 +170,7 @@ const BalanceCard: FC<BalanceCardProps> = ({ label, amount, trend, entries, isMa
                     : "bg-gradient-to-br from-white/10 to-transparent"
             }`}
         />
-        <CardContent className="p-6 md:p-8">
+        <CardContent className="p-4 sm:p-6 xl:p-8">
             <div className="flex items-center justify-between">
                 <span
                     className={`text-sm font-medium ${isMain ? "text-emerald-400" : "text-muted-foreground"}`}
@@ -194,12 +194,12 @@ const BalanceCard: FC<BalanceCardProps> = ({ label, amount, trend, entries, isMa
                 )}
             </div>
 
-            <div className="mt-4 flex items-end justify-between">
+            <div className="mt-4 flex items-end justify-between gap-2">
                 <div className="space-y-2 md:space-y-3">
                     <span
                         className={`block font-mono ${
                             isMain
-                                ? "text-5xl font-bold text-white md:text-6xl"
+                                ? "text-5xl font-bold text-white 2xl:text-6xl"
                                 : "text-3xl font-semibold text-white/90 md:text-4xl"
                         }`}
                     >
@@ -214,6 +214,7 @@ const BalanceCard: FC<BalanceCardProps> = ({ label, amount, trend, entries, isMa
                         </Badge>
                     )}
                 </div>
+
                 {isMain && (
                     <div className="rounded-xl bg-emerald-500/20 p-2 transition-colors duration-300 group-hover:bg-emerald-500/30 md:p-3">
                         <DollarSign className="h-6 w-6 text-emerald-400 md:h-7 md:w-7" />
@@ -224,8 +225,8 @@ const BalanceCard: FC<BalanceCardProps> = ({ label, amount, trend, entries, isMa
     </Card>
 );
 
-const Balance: FC<BalanceProps> = ({ summary }) => (
-    <div className="grid gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-3">
+const Balance = ({ summary }: BalanceProps) => (
+    <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3 2xl:gap-6">
         <BalanceCard label="Current Balance" amount={summary.balance} isMain />
         <BalanceCard
             label="Total Income"
@@ -242,7 +243,7 @@ const Balance: FC<BalanceProps> = ({ summary }) => (
     </div>
 );
 
-const TransactionList: FC<TransactionProps> = ({ title, items }) => (
+const TransactionList = ({ title, items }: TransactionProps) => (
     <div className="space-y-5">
         <div className="flex items-center justify-between">
             <h2 className="text-xl font-semibold text-white/90">{title}</h2>
@@ -253,11 +254,11 @@ const TransactionList: FC<TransactionProps> = ({ title, items }) => (
         </div>
 
         <Card className="overflow-hidden rounded-3xl border-0 bg-gradient-to-br from-black/60 to-black/40 backdrop-blur-lg">
-            <CardContent className="p-3">
+            <CardContent className="p-2 md:p-3">
                 {items.map((item, index) => (
                     <div key={`${item.name}-${index}`} className="flex flex-col">
                         {index > 0 && <Separator className="my-1 bg-white/10" />}
-                        <div className="group flex cursor-pointer items-center justify-between rounded-xl p-4 transition-all duration-300 hover:bg-white/10">
+                        <div className="group flex cursor-pointer items-center justify-between gap-6 rounded-xl px-2 py-4 transition-all duration-300 hover:bg-white/10 xl:px-4">
                             <div className="flex items-center gap-4">
                                 <div
                                     className={`rounded-xl p-3 ring-1 transition-colors duration-300 ${
@@ -273,7 +274,7 @@ const TransactionList: FC<TransactionProps> = ({ title, items }) => (
                                     )}
                                 </div>
                                 <div className="flex flex-col gap-1">
-                                    <span className="font-medium text-white/90 transition-colors group-hover:text-white">
+                                    <span className="text-sm font-medium text-white/90 transition-colors group-hover:text-white md:text-base">
                                         {item.name}
                                     </span>
                                     {/* <span className="text-xs font-medium text-white/40">Today</span> */}
@@ -281,7 +282,7 @@ const TransactionList: FC<TransactionProps> = ({ title, items }) => (
                             </div>
                             <div className="flex items-center gap-3">
                                 <span
-                                    className={`font-mono text-lg font-bold tracking-tight ${
+                                    className={`font-mono text-base font-bold tracking-tight md:text-lg ${
                                         item.type === "income"
                                             ? "text-emerald-400"
                                             : "text-rose-400"
@@ -300,8 +301,6 @@ const TransactionList: FC<TransactionProps> = ({ title, items }) => (
     </div>
 );
 
-export const runtime = "edge";
-
 export default async function Home() {
     const { getUser, isAuthenticated: auth } = getKindeServerSession();
     const user = await getUser();
@@ -315,11 +314,11 @@ export default async function Home() {
     const summary = calculateFinancialSummary(data);
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-zinc-950 via-black to-zinc-900 p-8 md:p-10">
+        <div className="min-h-screen bg-gradient-to-br from-zinc-950 via-black to-zinc-900 p-2 md:p-4">
             <div className="mx-auto max-w-[2000px] space-y-12">
                 <Navbar user={user} />
                 <Balance summary={summary} />
-                <div className="grid gap-10 md:grid-cols-2">
+                <div className="grid gap-10 lg:grid-cols-2">
                     <TransactionList title="Incomes" items={data.incomes} />
                     <TransactionList title="Expenses" items={data.expenses} />
                 </div>
