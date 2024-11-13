@@ -159,15 +159,21 @@ const BalanceCard: FC<BalanceCardProps> = ({ label, amount, trend, entries, isMa
     <Card
         className={`group relative overflow-hidden rounded-3xl border-0 transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl ${
             isMain
-                ? "bg-gradient-to-br from-emerald-400 to-emerald-900 backdrop-blur-lg backdrop-filter"
+                ? "bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-900 backdrop-blur-lg backdrop-filter"
                 : "bg-gradient-to-br from-black/60 to-black/40"
         }`}
     >
-        <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent transition-opacity duration-300 xl:opacity-70 xl:group-hover:opacity-100" />
+        <div
+            className={`absolute inset-0 transition-opacity duration-300 xl:opacity-70 xl:group-hover:opacity-100 ${
+                isMain
+                    ? "bg-gradient-to-br from-emerald-500/30 via-emerald-500/20 to-transparent"
+                    : "bg-gradient-to-br from-white/10 to-transparent"
+            }`}
+        />
         <CardContent className="p-6 md:p-8">
             <div className="flex items-center justify-between">
                 <span
-                    className={`text-sm font-medium ${isMain ? "text-white/90" : "text-white/60"}`}
+                    className={`text-sm font-medium ${isMain ? "text-emerald-400" : "text-muted-foreground"}`}
                 >
                     {label}
                 </span>
@@ -209,8 +215,8 @@ const BalanceCard: FC<BalanceCardProps> = ({ label, amount, trend, entries, isMa
                     )}
                 </div>
                 {isMain && (
-                    <div className="rounded-xl bg-white/10 p-2 transition-colors duration-300 group-hover:bg-white/20 md:p-3">
-                        <DollarSign className="h-6 w-6 text-white md:h-7 md:w-7" />
+                    <div className="rounded-xl bg-emerald-500/20 p-2 transition-colors duration-300 group-hover:bg-emerald-500/30 md:p-3">
+                        <DollarSign className="h-6 w-6 text-emerald-400 md:h-7 md:w-7" />
                     </div>
                 )}
             </div>
