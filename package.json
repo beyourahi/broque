@@ -8,6 +8,7 @@
     },
     "dependencies": {
         "@kinde-oss/kinde-auth-nextjs": "^2.4.6",
+        "@radix-ui/react-dialog": "^1.1.2",
         "@radix-ui/react-separator": "^1.1.0",
         "@radix-ui/react-slot": "^1.1.0",
         "@vercel/edge-config": "^1.4.0",
@@ -19,7 +20,8 @@
         "react": "^19.0.0-rc-2ec26bc4-20241111",
         "react-dom": "^19.0.0-rc-2ec26bc4-20241111",
         "tailwind-merge": "^2.5.4",
-        "tailwindcss-animate": "^1.0.7"
+        "tailwindcss-animate": "^1.0.7",
+        "vaul": "^1.1.1"
     },
     "devDependencies": {
         "@types/node": "^22.9.0",

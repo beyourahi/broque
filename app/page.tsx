@@ -10,9 +10,20 @@ import {
     LogOut,
     Activity,
     DollarSign,
-    ChevronRight
+    ChevronRight,
+    Menu
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import {
+    Drawer,
+    DrawerClose,
+    DrawerContent,
+    DrawerDescription,
+    DrawerFooter,
+    DrawerHeader,
+    DrawerTitle,
+    DrawerTrigger
+} from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -104,60 +115,98 @@ const calculateFinancialSummary = (data: FinancialData): FinancialSummary => {
     };
 };
 
-const Navbar = ({ user }: NavbarProps) => (
-    <Card className="rounded-2xl border-0 bg-gradient-to-r from-zinc-900 via-black/50 to-black drop-shadow-lg backdrop-blur-2xl backdrop-filter">
-        <CardContent className="flex h-auto flex-col items-center justify-between p-4 md:h-24 md:flex-row md:p-8">
-            <div className="flex items-center gap-4 md:gap-5">
-                <div className="rounded-2xl bg-gradient-to-br from-emerald-400 to-emerald-600 p-2 shadow-lg shadow-emerald-500/30 ring-4 ring-emerald-500/10 md:p-3">
-                    <Wallet2 className="h-6 w-6 text-white md:h-7 md:w-7" />
-                </div>
-                <div className="flex flex-col text-center md:text-left">
-                    <h1 className="text-2xl font-bold tracking-tight text-white md:text-3xl">
-                        Broke AF 😭
-                    </h1>
-                    <span className="text-sm font-medium text-white/50">
-                        Tracking my severely underpaid income and pesky expenses
-                    </span>
-                </div>
+const Navbar = ({ user }: NavbarProps) => {
+    const UserInfo = () => (
+        <div className="flex items-center gap-3">
+            <div className="relative h-10 w-10 overflow-hidden rounded-full md:h-12 md:w-12">
+                <Image
+                    src={user.picture || bossman}
+                    alt="User avatar"
+                    fill
+                    className="object-cover"
+                    priority={true}
+                />
             </div>
+            <div className="flex flex-col">
+                <span className="text-sm text-muted-foreground">
+                    {user.given_name} {user.family_name}
+                </span>
+                <span className="text-sm font-medium text-white sm:text-base">{user.email}</span>
+            </div>
+        </div>
+    );
 
-            <div className="mt-4 flex flex-col items-center gap-6 md:mt-0 md:flex-row md:gap-8">
-                <div className="flex items-center gap-4">
-                    <div className="relative h-10 w-10 overflow-hidden rounded-full md:h-12 md:w-12">
-                        <Image
-                            src={user.picture || bossman}
-                            alt="User avatar"
-                            fill
-                            className="object-cover"
-                            priority={true}
-                        />
+    const SignOutButton = () => (
+        <LogoutLink>
+            <Button
+                variant="outline"
+                size="lg"
+                className="w-full border-0 bg-white/5 px-4 font-medium text-white/80 transition-all duration-300 ease-out hover:bg-red-500/20 hover:text-red-500 sm:w-auto sm:px-6"
+            >
+                <LogOut className="mr-2 h-4 w-4" />
+                <span>Sign Out</span>
+            </Button>
+        </LogoutLink>
+    );
+
+    // Mobile/Tablet Menu
+    const MobileMenu = () => (
+        <Drawer>
+            <DrawerTrigger asChild>
+                <Button
+                    variant="outline"
+                    size="icon"
+                    className="border-0 bg-white/5 text-white/80 hover:bg-white/10 lg:hidden"
+                >
+                    <Menu className="h-5 w-5" />
+                </Button>
+            </DrawerTrigger>
+
+            <DrawerContent className="border-0">
+                <div className="flex flex-col gap-6 px-4 py-8">
+                    <UserInfo />
+                    <SignOutButton />
+                </div>
+            </DrawerContent>
+        </Drawer>
+    );
+
+    return (
+        <Card className="rounded-xl border-0 bg-gradient-to-r from-zinc-900 via-black/50 to-black drop-shadow-lg backdrop-blur-2xl backdrop-filter">
+            <CardContent className="flex items-center justify-between p-4 sm:p-6 lg:p-8">
+                {/* Logo and Title Section */}
+                <div className="flex items-center gap-3 sm:gap-4 lg:gap-5">
+                    <div className="rounded-xl bg-gradient-to-br from-emerald-400 to-emerald-600 p-2 shadow-lg shadow-emerald-500/30 ring-4 ring-emerald-500/10">
+                        <Wallet2 className="h-5 w-5 text-white sm:h-6 sm:w-6 lg:h-7 lg:w-7" />
                     </div>
-                    <div className="hidden flex-col md:flex">
-                        <span className="text-sm text-muted-foreground">
-                            {user.given_name} {user.family_name}
+                    <div className="flex flex-col">
+                        <h1 className="text-lg font-bold tracking-tight text-white sm:text-xl lg:text-2xl xl:text-3xl">
+                            Broke AF 😭
+                        </h1>
+                        <span className="hidden text-xs font-medium text-white/50 sm:block lg:text-sm">
+                            Tracking my severely underpaid income and pesky expenses
                         </span>
-                        <span className="font-medium text-white">{user.email}</span>
                     </div>
                 </div>
 
-                <LogoutLink>
-                    <Button
-                        variant="outline"
-                        size="lg"
-                        className="border-0 bg-white/5 px-6 font-medium text-white/80 transition-all duration-300 ease-out hover:bg-red-500/20 hover:text-red-500"
-                    >
-                        <LogOut className="mr-2 h-4 w-4" />
-                        <span>Sign Out</span>
-                    </Button>
-                </LogoutLink>
-            </div>
-        </CardContent>
-    </Card>
-);
+                {/* Desktop Navigation */}
+                <div className="hidden items-center gap-8 lg:flex">
+                    <UserInfo />
+                    <SignOutButton />
+                </div>
+
+                {/* Mobile/Tablet Navigation */}
+                <div className="lg:hidden">
+                    <MobileMenu />
+                </div>
+            </CardContent>
+        </Card>
+    );
+};
 
 const BalanceCard = ({ label, amount, trend, entries, isMain }: BalanceCardProps) => (
     <Card
-        className={`group relative overflow-hidden rounded-3xl border-0 transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl ${
+        className={`group relative overflow-hidden rounded-2xl border-0 transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl ${
             isMain
                 ? "bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-900 backdrop-blur-lg backdrop-filter sm:col-span-2 xl:col-span-1"
                 : "bg-gradient-to-br from-black/60 to-black/40 xl:col-span-1"
@@ -199,7 +248,7 @@ const BalanceCard = ({ label, amount, trend, entries, isMain }: BalanceCardProps
                     <span
                         className={`block font-mono ${
                             isMain
-                                ? "text-5xl font-bold text-white 2xl:text-6xl"
+                                ? "text-4xl font-bold text-white lg:text-5xl 2xl:text-6xl"
                                 : "text-3xl font-semibold text-white/90 md:text-4xl"
                         }`}
                     >
@@ -314,14 +363,12 @@ export default async function Home() {
     const summary = calculateFinancialSummary(data);
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-zinc-950 via-black to-zinc-900 p-2 md:p-4">
-            <div className="mx-auto max-w-[2000px] space-y-12">
-                <Navbar user={user} />
-                <Balance summary={summary} />
-                <div className="grid gap-10 lg:grid-cols-2">
-                    <TransactionList title="Incomes" items={data.incomes} />
-                    <TransactionList title="Expenses" items={data.expenses} />
-                </div>
+        <div className="mx-auto min-h-screen w-full max-w-[2000px] space-y-8 p-2 md:p-4 xl:space-y-12">
+            <Navbar user={user} />
+            <Balance summary={summary} />
+            <div className="grid gap-10 lg:grid-cols-2">
+                <TransactionList title="Incomes" items={data.incomes} />
+                <TransactionList title="Expenses" items={data.expenses} />
             </div>
         </div>
     );

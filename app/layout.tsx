@@ -13,10 +13,12 @@ const RootLayout = ({ children }: PropsWithChildren) => (
         <body
             className={cn(
                 GeistSans.className,
-                "dark flex h-full min-h-[100dvh] flex-col border-border bg-background text-foreground"
+                "dark border-border bg-gradient-to-br from-zinc-950 via-black to-zinc-900 text-foreground"
             )}
         >
-            {children}
+            <div vaul-drawer-wrapper="">
+                <div className="flex h-full min-h-[100dvh] flex-col">{children}</div>
+            </div>
         </body>
     </html>
 );
