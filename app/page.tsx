@@ -1,4 +1,3 @@
-import { redirect } from "next/navigation";
 import Image from "next/image";
 import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
@@ -11,7 +10,8 @@ import {
     Activity,
     DollarSign,
     ChevronRight,
-    Menu
+    Menu,
+    Shield
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
@@ -172,7 +172,7 @@ const Navbar = ({ user }: NavbarProps) => {
                     </div>
                     <div className="flex flex-col">
                         <h1 className="text-lg font-bold tracking-tight text-white sm:text-xl lg:text-2xl xl:text-3xl">
-                            Broke AF 😭
+                            broqué
                         </h1>
                         <span className="hidden text-xs font-medium text-white/50 sm:block lg:text-sm">
                             Tracking my severely underpaid income and pesky expenses
@@ -341,13 +341,46 @@ const TransactionList = ({ title, items }: TransactionProps) => (
     </div>
 );
 
+const AccessDenied = () => (
+    <div className="flex min-h-screen items-center justify-center p-4">
+        <Card className="w-full max-w-md overflow-hidden rounded-2xl border-0 bg-gradient-to-br from-zinc-900 via-black/50 to-black">
+            <CardContent className="flex flex-col gap-6 p-6 sm:p-8">
+                <div className="flex flex-col items-center space-y-4 text-center">
+                    <div className="rounded-2xl bg-rose-500/20 p-3 text-rose-400 ring-1 ring-rose-500/30">
+                        <Shield className="h-8 w-8" />
+                    </div>
+
+                    <div className="space-y-2">
+                        <h1 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">
+                            Sorry bruh
+                        </h1>
+                        <p className="text-sm text-white/60 sm:text-base">
+                            Your name&apos;s not on the list!
+                        </p>
+                    </div>
+                </div>
+
+                <LogoutLink postLogoutRedirectURL="/">
+                    <Button
+                        variant="outline"
+                        size="lg"
+                        className="flex w-full items-center gap-3 border-0 bg-white/5 px-4 font-semibold text-white/80 transition-all duration-300 ease-out hover:bg-red-500/10 hover:text-red-500"
+                    >
+                        <span>Go Away</span>
+                    </Button>
+                </LogoutLink>
+            </CardContent>
+        </Card>
+    </div>
+);
+
 export default async function Home() {
     const { getUser, isAuthenticated: auth } = getKindeServerSession();
     const user = await getUser();
     const isAuthenticated = await auth();
 
     if (!isAuthenticated || !user.email || !PERMITTED_USERS.includes(user.email)) {
-        redirect("/login");
+        return <AccessDenied />;
     }
 
     const data = (await getAll()) as FinancialData;

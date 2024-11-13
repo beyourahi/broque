@@ -16,7 +16,7 @@ const RootLayout = ({ children }: PropsWithChildren) => (
                 "dark border-border bg-gradient-to-br from-zinc-950 via-black to-zinc-900 text-foreground"
             )}
         >
-            <div vaul-drawer-wrapper="">
+            <div data-vaul-drawer-wrapper>
                 <div className="flex h-full min-h-[100dvh] flex-col">{children}</div>
             </div>
         </body>
