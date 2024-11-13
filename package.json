@@ -8,6 +8,7 @@
     },
     "dependencies": {
         "@kinde-oss/kinde-auth-nextjs": "^2.4.6",
+        "@radix-ui/react-separator": "^1.1.0",
         "@radix-ui/react-slot": "^1.1.0",
         "@vercel/edge-config": "^1.4.0",
         "class-variance-authority": "^0.7.0",
