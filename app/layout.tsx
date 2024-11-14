@@ -2,10 +2,13 @@ import "./globals.css";
 import { PropsWithChildren } from "react";
 import { GeistSans } from "geist/font/sans";
 import { cn } from "@/lib/utils";
+import { brand } from "@/data";
+
+export const experimental_ppr = true;
 
 export const metadata = {
-    title: "Broke Af",
-    description: "Money Tracker"
+    title: brand.name,
+    description: brand.description
 };
 
 const RootLayout = ({ children }: PropsWithChildren) => (

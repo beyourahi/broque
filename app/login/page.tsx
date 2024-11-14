@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { LoginLink } from "@kinde-oss/kinde-auth-nextjs/components";
+import { signIn } from "@/auth";
 import { Wallet2 } from "lucide-react";
 
 const Login = () => (
@@ -22,15 +22,21 @@ const Login = () => (
                     </div>
                 </div>
 
-                <LoginLink postLoginRedirectURL="/">
+                <form
+                    action={async () => {
+                        "use server";
+                        await signIn("google", { redirectTo: "/" });
+                    }}
+                >
                     <Button
+                        type="submit"
                         variant="outline"
                         size="lg"
                         className="flex w-full items-center gap-3 border-0 bg-white/5 px-4 font-semibold text-white/80 transition-all duration-300 ease-out hover:bg-emerald-500/10 hover:text-emerald-500"
                     >
                         <span>Log In</span>
                     </Button>
-                </LoginLink>
+                </form>
             </CardContent>
         </Card>
     </div>

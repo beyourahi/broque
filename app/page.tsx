@@ -1,6 +1,6 @@
 import Image from "next/image";
-import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
-import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+import { auth, signOut } from "@/auth";
+import { type User } from "next-auth";
 import { getAll } from "@vercel/edge-config";
 import {
     TrendingUp,
@@ -19,16 +19,6 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import bossman from "@/public/bossman.webp";
-
-export const runtime = "edge";
-
-// Types
-interface User {
-    family_name: string | null;
-    given_name: string | null;
-    email: string | null;
-    picture?: string | null;
-}
 
 interface Income {
     name: string;
@@ -111,7 +101,7 @@ const Navbar = ({ user }: NavbarProps) => {
         <div className="flex items-center gap-3">
             <div className="relative h-10 w-10 overflow-hidden rounded-full md:h-12 md:w-12">
                 <Image
-                    src={user.picture || bossman}
+                    src={user.image || bossman}
                     alt="User avatar"
                     fill
                     className="object-cover"
@@ -119,25 +109,29 @@ const Navbar = ({ user }: NavbarProps) => {
                 />
             </div>
             <div className="flex flex-col">
-                <span className="text-sm text-muted-foreground">
-                    {user.given_name} {user.family_name}
-                </span>
+                <span className="text-sm text-muted-foreground">{user.name}</span>
                 <span className="text-sm font-medium text-white sm:text-base">{user.email}</span>
             </div>
         </div>
     );
 
     const SignOutButton = () => (
-        <LogoutLink>
+        <form
+            action={async () => {
+                "use server";
+                await signOut();
+            }}
+        >
             <Button
+                type="submit"
                 variant="outline"
                 size="lg"
                 className="w-full border-0 bg-white/5 px-4 font-medium text-white/80 transition-all duration-300 ease-out hover:bg-red-500/20 hover:text-red-500 sm:w-auto sm:px-6"
             >
                 <LogOut className="mr-2 h-4 w-4" />
-                <span>Sign Out</span>
+                <span>Log Out</span>
             </Button>
-        </LogoutLink>
+        </form>
     );
 
     // Mobile/Tablet Menu
@@ -360,26 +354,30 @@ const AccessDenied = () => (
                     </div>
                 </div>
 
-                <LogoutLink postLogoutRedirectURL="/">
+                <form
+                    action={async () => {
+                        "use server";
+                        await signOut();
+                    }}
+                >
                     <Button
+                        type="submit"
                         variant="outline"
                         size="lg"
                         className="flex w-full items-center gap-3 border-0 bg-white/5 px-4 font-semibold text-white/80 transition-all duration-300 ease-out hover:bg-red-500/10 hover:text-red-500"
                     >
                         <span>Go Away</span>
                     </Button>
-                </LogoutLink>
+                </form>
             </CardContent>
         </Card>
     </div>
 );
 
 export default async function Home() {
-    const { getUser, isAuthenticated: auth } = getKindeServerSession();
-    const user = await getUser();
-    const isAuthenticated = await auth();
+    const session = await auth();
 
-    if (!isAuthenticated || !user.email || !PERMITTED_USERS.includes(user.email)) {
+    if (!session || !PERMITTED_USERS.includes(session?.user?.email!)) {
         return <AccessDenied />;
     }
 
@@ -388,7 +386,7 @@ export default async function Home() {
 
     return (
         <div className="mx-auto min-h-screen w-full max-w-[2000px] space-y-8 p-2 md:p-4 xl:space-y-12">
-            <Navbar user={user} />
+            <Navbar user={session.user!} />
             <Balance summary={summary} />
             <div className="grid gap-10 lg:grid-cols-2">
                 <TransactionList title="Incomes" items={data.incomes} />
