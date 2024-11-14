@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { auth, signOut } from "@/auth";
-import { type User } from "next-auth";
+import { Session } from "next-auth";
 import { getAll } from "@vercel/edge-config";
 import {
     TrendingUp,
@@ -11,7 +11,8 @@ import {
     DollarSign,
     ChevronRight,
     Menu,
-    Shield
+    Shield,
+    Clock
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
@@ -19,6 +20,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import bossman from "@/public/bossman.webp";
+import { log } from "@/lib/utils";
 
 interface Income {
     name: string;
@@ -47,7 +49,7 @@ interface FinancialSummary {
 }
 
 interface NavbarProps {
-    user: User;
+    session: Session;
 }
 
 interface BalanceCardProps {
@@ -96,21 +98,72 @@ const calculateFinancialSummary = (data: FinancialData): FinancialSummary => {
     };
 };
 
-const Navbar = ({ user }: NavbarProps) => {
+const SessionExpiry = ({ expiryDate }: { expiryDate: string }) => {
+    const formatTimeRemaining = (expiryDateString: string) => {
+        try {
+            const now = new Date();
+            const expiry = new Date(expiryDateString);
+
+            if (isNaN(expiry.getTime())) {
+                return "Session time unavailable";
+            }
+
+            const diff = expiry.getTime() - now.getTime();
+
+            if (diff < 0) return "Session expired";
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+            // Build the time string
+            const parts = [];
+            if (days > 0) parts.push(`${days} days`);
+            if (hours > 0 && days < 1) parts.push(`${hours} hours`);
+            if (minutes > 0 && days < 1) parts.push(`${minutes} minutes`);
+
+            if (parts.length === 0) {
+                return "Less than a minute remaining";
+            }
+
+            return `Active for ${parts.join(", ")}`;
+        } catch (error) {
+            console.error("Error formatting date:", error);
+            return "Session time unavailable";
+        }
+    };
+
+    return (
+        <Badge
+            variant="secondary"
+            className="flex w-fit items-center gap-2 px-2 transition-colors duration-300"
+        >
+            <Clock className="h-3.5 w-3.5 text-muted-foreground" />
+            <span className="text-muted-foreground">{formatTimeRemaining(expiryDate)}</span>
+        </Badge>
+    );
+};
+
+const Navbar = ({ session }: NavbarProps) => {
     const UserInfo = () => (
         <div className="flex items-center gap-3">
             <div className="relative h-10 w-10 overflow-hidden rounded-full md:h-12 md:w-12">
                 <Image
-                    src={user.image || bossman}
+                    src={session?.user?.image || bossman}
                     alt="User avatar"
                     fill
                     className="object-cover"
                     priority={true}
                 />
             </div>
-            <div className="flex flex-col">
-                <span className="text-sm text-muted-foreground">{user.name}</span>
-                <span className="text-sm font-medium text-white sm:text-base">{user.email}</span>
+            <div className="flex flex-col gap-2">
+                <div className="flex flex-col">
+                    <span className="text-sm text-muted-foreground">{session?.user?.name}</span>
+                    <span className="text-sm font-medium text-white sm:text-base">
+                        {session?.user?.email}
+                    </span>
+                </div>
+                <SessionExpiry expiryDate={session?.expires} />
             </div>
         </div>
     );
@@ -119,7 +172,10 @@ const Navbar = ({ user }: NavbarProps) => {
         <form
             action={async () => {
                 "use server";
-                await signOut();
+                await signOut({
+                    redirect: true,
+                    redirectTo: "/login"
+                });
             }}
         >
             <Button
@@ -177,7 +233,7 @@ const Navbar = ({ user }: NavbarProps) => {
                 {/* Desktop Navigation */}
                 <div className="hidden items-center gap-8 lg:flex">
                     <UserInfo />
-                    <SignOutButton />
+                    {/* <SignOutButton /> */}
                 </div>
 
                 {/* Mobile/Tablet Navigation */}
@@ -357,7 +413,10 @@ const AccessDenied = () => (
                 <form
                     action={async () => {
                         "use server";
-                        await signOut();
+                        await signOut({
+                            redirect: true,
+                            redirectTo: "/login"
+                        });
                     }}
                 >
                     <Button
@@ -377,6 +436,8 @@ const AccessDenied = () => (
 export default async function Home() {
     const session = await auth();
 
+    log("session", session);
+
     if (!session || !PERMITTED_USERS.includes(session?.user?.email!)) {
         return <AccessDenied />;
     }
@@ -386,7 +447,7 @@ export default async function Home() {
 
     return (
         <div className="mx-auto min-h-screen w-full max-w-[2000px] space-y-8 p-2 md:p-4 xl:space-y-12">
-            <Navbar user={session.user!} />
+            <Navbar session={session!} />
             <Balance summary={summary} />
             <div className="grid gap-10 lg:grid-cols-2">
                 <TransactionList title="Incomes" items={data.incomes} />
