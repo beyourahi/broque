@@ -14,13 +14,12 @@ export const metadata = {
 const RootLayout = ({ children }: PropsWithChildren) => (
     <html lang="en">
         <body
-            className={cn(
-                GeistSans.className,
-                "dark border-border bg-gradient-to-br from-zinc-950 via-black to-zinc-900 text-foreground"
-            )}
+            className={cn(GeistSans.className, "dark border-border bg-background text-foreground")}
         >
             <div data-vaul-drawer-wrapper>
-                <div className="flex h-full min-h-[100dvh] flex-col">{children}</div>
+                <div className="flex h-full min-h-[100dvh] flex-col bg-gradient-to-br from-zinc-950 via-black to-zinc-900">
+                    {children}
+                </div>
             </div>
         </body>
     </html>

@@ -20,7 +20,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import bossman from "@/public/bossman.webp";
-import { log } from "@/lib/utils";
+import { redirect } from "next/navigation";
 
 interface Income {
     name: string;
@@ -436,9 +436,11 @@ const AccessDenied = () => (
 export default async function Home() {
     const session = await auth();
 
-    log("session", session);
+    if (!session) {
+        redirect("/login");
+    }
 
-    if (!session || !PERMITTED_USERS.includes(session?.user?.email!)) {
+    if (!PERMITTED_USERS.includes(session?.user?.email!)) {
         return <AccessDenied />;
     }
 
