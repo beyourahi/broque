@@ -18,7 +18,7 @@ const RootLayout = ({ children }: PropsWithChildren) => (
             className={cn(GeistSans.className, "dark border-border bg-background text-foreground")}
         >
             <div data-vaul-drawer-wrapper>
-                <div className="flex h-full min-h-[100dvh] flex-col bg-gradient-to-br from-zinc-950 via-black to-zinc-900">
+                <div className="flex h-full min-h-[100dvh] flex-col bg-gradient-to-br from-zinc-950 via-black to-zinc-900 selection:bg-emerald-100/20 selection:text-emerald-400">
                     <Suspense fallback={<DashboardSkeleton />}>{children}</Suspense>
                 </div>
             </div>

@@ -13,9 +13,9 @@ interface Props {
 
 export const BalanceCard = ({ label, amount, trend, entries, isMain }: Props) => (
     <Card
-        className={`group relative overflow-hidden rounded-2xl border-0 transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl ${
+        className={`group relative overflow-hidden rounded-2xl border-0 transition-all duration-500 xl:hover:-translate-y-1 xl:hover:shadow-2xl ${
             isMain
-                ? "bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-900 backdrop-blur-lg backdrop-filter before:absolute before:inset-0 before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/10 before:to-transparent sm:col-span-2 xl:col-span-1"
+                ? "bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-900 backdrop-blur-lg backdrop-filter before:absolute before:inset-0 before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/20 before:to-transparent sm:col-span-2 xl:col-span-1"
                 : "bg-gradient-to-br from-black/60 to-black/40 xl:col-span-1"
         }`}
     >
