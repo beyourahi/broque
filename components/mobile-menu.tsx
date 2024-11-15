@@ -18,7 +18,7 @@ export const MobileMenu = ({ session }: { session: Session }) => (
             </Button>
         </DrawerTrigger>
 
-        <DrawerContent className="border-0">
+        <DrawerContent className="border-0 bg-zinc-900">
             <div className="flex flex-col gap-6 px-4 py-8">
                 <UserInfo session={session} />
                 <form action={logout}>

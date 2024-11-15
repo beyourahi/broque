@@ -21,16 +21,16 @@ export default async function Home() {
 
     const data = (await getAll()) as FinancialData;
     const summary = calculateFinancialSummary(data);
-
-    // await new Promise((resolve) => setTimeout(resolve, 10000));
+    const incomes = data.incomes;
+    const expenses = data.expenses;
 
     return (
         <div className="mx-auto min-h-screen w-full max-w-[2000px] space-y-8 p-2 md:p-4 xl:space-y-12">
             <Navbar session={session} />
             <Balance summary={summary} />
             <div className="grid gap-10 lg:grid-cols-2">
-                <TransactionList title="Incomes" items={data.incomes} />
-                <TransactionList title="Expenses" items={data.expenses} />
+                <TransactionList title="Incomes" items={incomes} />
+                <TransactionList title="Expenses" items={expenses} />
             </div>
         </div>
     );

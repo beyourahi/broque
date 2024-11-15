@@ -1,10 +1,6 @@
 import { BalanceCard } from "@/components/balance-card";
 
-interface Props {
-    summary: FinancialSummary;
-}
-
-export const Balance = ({ summary }: Props) => (
+export const Balance = ({ summary }: { summary: FinancialSummary }) => (
     <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3 2xl:gap-6">
         <BalanceCard label="Current Balance" amount={summary.balance} isMain />
         <BalanceCard
