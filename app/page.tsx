@@ -11,8 +11,7 @@ import {
     DollarSign,
     ChevronRight,
     Menu,
-    Shield,
-    Clock
+    Shield
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
@@ -98,52 +97,6 @@ const calculateFinancialSummary = (data: FinancialData): FinancialSummary => {
     };
 };
 
-const SessionExpiry = ({ expiryDate }: { expiryDate: string }) => {
-    const formatTimeRemaining = (expiryDateString: string) => {
-        try {
-            const now = new Date();
-            const expiry = new Date(expiryDateString);
-
-            if (isNaN(expiry.getTime())) {
-                return "Session time unavailable";
-            }
-
-            const diff = expiry.getTime() - now.getTime();
-
-            if (diff < 0) return "Session expired";
-
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-
-            // Build the time string
-            const parts = [];
-            if (days > 0) parts.push(`${days} days`);
-            if (hours > 0 && days < 1) parts.push(`${hours} hours`);
-            if (minutes > 0 && days < 1) parts.push(`${minutes} minutes`);
-
-            if (parts.length === 0) {
-                return "Less than a minute remaining";
-            }
-
-            return `Active for ${parts.join(", ")}`;
-        } catch (error) {
-            console.error("Error formatting date:", error);
-            return "Session time unavailable";
-        }
-    };
-
-    return (
-        <Badge
-            variant="secondary"
-            className="flex w-fit items-center gap-2 px-2 transition-colors duration-300"
-        >
-            <Clock className="h-3.5 w-3.5 text-muted-foreground" />
-            <span className="text-muted-foreground">{formatTimeRemaining(expiryDate)}</span>
-        </Badge>
-    );
-};
-
 const Navbar = ({ session }: NavbarProps) => {
     const UserInfo = () => (
         <div className="flex items-center gap-3">
@@ -163,7 +116,6 @@ const Navbar = ({ session }: NavbarProps) => {
                         {session?.user?.email}
                     </span>
                 </div>
-                <SessionExpiry expiryDate={session?.expires} />
             </div>
         </div>
     );
@@ -182,7 +134,7 @@ const Navbar = ({ session }: NavbarProps) => {
                 type="submit"
                 variant="outline"
                 size="lg"
-                className="w-full border-0 bg-white/5 px-4 font-medium text-white/80 transition-all duration-300 ease-out hover:bg-red-500/20 hover:text-red-500 sm:w-auto sm:px-6"
+                className="w-full border border-white/10 bg-white/5 px-4 font-medium text-white/80 transition-all duration-300 ease-out hover:border-red-500/20 hover:bg-red-500/20 hover:text-red-500 sm:w-auto sm:px-6"
             >
                 <LogOut className="mr-2 h-4 w-4" />
                 <span>Log Out</span>
@@ -214,7 +166,7 @@ const Navbar = ({ session }: NavbarProps) => {
 
     return (
         <Card className="rounded-xl border-0 bg-gradient-to-r from-zinc-900 via-black/50 to-black drop-shadow-lg backdrop-blur-2xl backdrop-filter">
-            <CardContent className="flex items-center justify-between p-4 sm:p-6 lg:p-8">
+            <CardContent className="flex items-center justify-between p-4">
                 {/* Logo and Title Section */}
                 <div className="flex items-center gap-3 sm:gap-4 lg:gap-5">
                     <div className="rounded-xl bg-gradient-to-br from-emerald-400 to-emerald-600 p-2 shadow-lg shadow-emerald-500/30 ring-4 ring-emerald-500/10">
@@ -222,7 +174,7 @@ const Navbar = ({ session }: NavbarProps) => {
                     </div>
                     <div className="flex flex-col">
                         <h1 className="text-lg font-bold tracking-tight text-white sm:text-xl lg:text-2xl xl:text-3xl">
-                            broqué
+                            broqué
                         </h1>
                         <span className="hidden text-xs font-medium text-white/50 sm:block lg:text-sm">
                             Tracking my severely underpaid income and pesky expenses
@@ -231,9 +183,15 @@ const Navbar = ({ session }: NavbarProps) => {
                 </div>
 
                 {/* Desktop Navigation */}
-                <div className="hidden items-center gap-8 lg:flex">
-                    <UserInfo />
-                    {/* <SignOutButton /> */}
+                <div className="hidden lg:flex lg:items-center">
+                    <div className="flex items-center divide-x divide-white/10">
+                        <div className="pr-8">
+                            <UserInfo />
+                        </div>
+                        <div className="pl-8">
+                            <SignOutButton />
+                        </div>
+                    </div>
                 </div>
 
                 {/* Mobile/Tablet Navigation */}
