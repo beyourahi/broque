@@ -1,7 +1,7 @@
 import { BalanceCard } from "@/components/balance-card";
 
 export const Balance = ({ summary }: { summary: FinancialSummary }) => (
-    <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3 2xl:gap-6">
+    <div className="grid grid-cols-2 gap-4 xl:grid-cols-3 2xl:gap-6">
         <BalanceCard label="Current Balance" amount={summary.balance} isMain />
         <BalanceCard
             label="Lifetime Income"

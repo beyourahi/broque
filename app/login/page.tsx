@@ -4,7 +4,7 @@ import { login } from "@/actions/login";
 import { LogInButton } from "@/components/log-in-button";
 
 const Login = () => (
-    <div className="flex min-h-screen items-center justify-center p-4">
+    <div className="flex flex-grow items-center justify-center p-4">
         <Card className="w-full max-w-md overflow-hidden rounded-2xl border-0 bg-gradient-to-br from-zinc-900 via-black/50 to-black">
             <CardContent className="flex flex-col gap-6 p-6 sm:p-8">
                 <div className="flex flex-col items-center space-y-4 text-center">

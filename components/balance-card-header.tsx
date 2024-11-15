@@ -12,7 +12,7 @@ export const BalanceCardHeader = ({ label, trend, isMain }: Props) => (
     <div className="flex items-center justify-between">
         <span
             className={cn(
-                "text-sm font-medium",
+                "text-xs font-medium sm:text-sm",
                 isMain ? "text-emerald-400" : "text-muted-foreground"
             )}
         >
@@ -21,16 +21,16 @@ export const BalanceCardHeader = ({ label, trend, isMain }: Props) => (
 
         {trend && (
             <Badge
-                className={`flex items-center gap-1.5 rounded-full ${
+                className={`flex items-center rounded-full px-1.5 ${
                     trend === "up"
                         ? "bg-emerald-500/20 text-emerald-400"
                         : "bg-rose-500/20 text-rose-400"
                 }`}
             >
                 {trend === "up" ? (
-                    <TrendingUp className="h-4 w-4" />
+                    <TrendingUp className="h-3 w-3 sm:h-4 sm:w-4" />
                 ) : (
-                    <TrendingDown className="h-4 w-4" />
+                    <TrendingDown className="h-3 w-3 sm:h-4 sm:w-4" />
                 )}
             </Badge>
         )}

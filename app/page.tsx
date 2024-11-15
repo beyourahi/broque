@@ -26,7 +26,7 @@ export default async function Home() {
     const expenses = data.expenses;
 
     return (
-        <div className="mx-auto min-h-screen w-full max-w-[2000px] space-y-8 p-2 md:p-4 xl:space-y-12">
+        <div className="mx-auto w-full max-w-[2000px] flex-grow space-y-8 p-2 md:p-4 xl:space-y-12">
             <Navbar session={session} />
             <Balance summary={summary} />
             <MobileTransactionTabs incomes={incomes} expenses={expenses} />
