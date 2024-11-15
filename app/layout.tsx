@@ -3,7 +3,7 @@ import { PropsWithChildren, Suspense } from "react";
 import { GeistSans } from "geist/font/sans";
 import { cn } from "@/lib/utils";
 import { brand } from "@/data";
-import { DashboardSkeleton } from "@/components/skeleton";
+import { HomeSkeleton } from "@/components/home-skeleton";
 
 export const experimental_ppr = true;
 
@@ -19,7 +19,7 @@ const RootLayout = ({ children }: PropsWithChildren) => (
         >
             <div data-vaul-drawer-wrapper>
                 <div className="flex h-full min-h-[100dvh] flex-col bg-gradient-to-br from-zinc-950 via-black to-zinc-900 selection:bg-emerald-100/20 selection:text-emerald-400">
-                    <Suspense fallback={<DashboardSkeleton />}>{children}</Suspense>
+                    <Suspense fallback={<HomeSkeleton />}>{children}</Suspense>
                 </div>
             </div>
         </body>
