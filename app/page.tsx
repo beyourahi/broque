@@ -5,8 +5,9 @@ import { PERMITTED_USERS } from "@/data";
 import { calculateFinancialSummary } from "@/lib/utils";
 import { Navbar } from "@/components/navbar";
 import { Balance } from "@/components/balance";
-import { TransactionList } from "@/components/transaction-list";
 import { AccessDenied } from "@/components/access-denied";
+import { DesktopTransactionGrid } from "@/components/desktop-transaction-grid";
+import { MobileTransactionTabs } from "@/components/mobile-transaction-tabs";
 
 export default async function Home() {
     const session = await auth();
@@ -28,10 +29,8 @@ export default async function Home() {
         <div className="mx-auto min-h-screen w-full max-w-[2000px] space-y-8 p-2 md:p-4 xl:space-y-12">
             <Navbar session={session} />
             <Balance summary={summary} />
-            <div className="grid gap-10 lg:grid-cols-2">
-                <TransactionList title="Incomes" items={incomes} />
-                <TransactionList title="Expenses" items={expenses} />
-            </div>
+            <MobileTransactionTabs incomes={incomes} expenses={expenses} />
+            <DesktopTransactionGrid incomes={incomes} expenses={expenses} />
         </div>
     );
 }
