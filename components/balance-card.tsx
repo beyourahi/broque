@@ -15,17 +15,18 @@ export const BalanceCard = ({ label, amount, trend, entries, isMain }: Props) =>
     <Card
         className={`group relative overflow-hidden rounded-2xl border-0 transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl ${
             isMain
-                ? "animate-shimmer bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-900 backdrop-blur-lg backdrop-filter sm:col-span-2 xl:col-span-1"
+                ? "bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-900 backdrop-blur-lg backdrop-filter before:absolute before:inset-0 before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/10 before:to-transparent sm:col-span-2 xl:col-span-1"
                 : "bg-gradient-to-br from-black/60 to-black/40 xl:col-span-1"
         }`}
     >
         <div
             className={`absolute inset-0 transition-opacity duration-300 xl:opacity-70 xl:group-hover:opacity-100 ${
                 isMain
-                    ? "animate-shimmer bg-gradient-to-br from-emerald-500/30 via-emerald-500/20 to-transparent"
+                    ? "bg-gradient-to-br from-emerald-500/30 via-emerald-500/20 to-transparent"
                     : "bg-gradient-to-br from-white/10 to-transparent"
             }`}
         />
+
         <CardContent className="p-4 sm:p-6 xl:p-8">
             <div className="flex items-center justify-between">
                 <span

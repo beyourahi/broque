@@ -59,11 +59,11 @@ export default {
             },
             keyframes: {
                 shimmer: {
-                    from: {
-                        backgroundPosition: "200% 0"
+                    "0%": {
+                        transform: "translateX(-100%)"
                     },
-                    to: {
-                        backgroundPosition: "-200% 0"
+                    "100%": {
+                        transform: "translateX(100%)"
                     }
                 },
                 "accordion-down": {
