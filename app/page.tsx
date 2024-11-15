@@ -22,6 +22,8 @@ export default async function Home() {
     const data = (await getAll()) as FinancialData;
     const summary = calculateFinancialSummary(data);
 
+    // await new Promise((resolve) => setTimeout(resolve, 10000));
+
     return (
         <div className="mx-auto min-h-screen w-full max-w-[2000px] space-y-8 p-2 md:p-4 xl:space-y-12">
             <Navbar session={session} />

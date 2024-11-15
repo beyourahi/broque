@@ -2,8 +2,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Wallet2 } from "lucide-react";
 import { Session } from "next-auth";
 import { UserInfo } from "@/components/user-info";
-import { SignOutButton } from "@/components/sign-out-button";
+import { LogOutButton } from "@/components/log-out-button";
 import { MobileMenu } from "@/components/mobile-menu";
+import { logout } from "@/actions/logout";
 
 export const Navbar = ({ session }: { session: Session }) => (
     <Card className="rounded-xl border-0 bg-gradient-to-r from-zinc-900 via-black/50 to-black drop-shadow-lg backdrop-blur-2xl backdrop-filter">
@@ -28,7 +29,9 @@ export const Navbar = ({ session }: { session: Session }) => (
                         <UserInfo session={session} />
                     </div>
                     <div className="pl-8">
-                        <SignOutButton />
+                        <form action={logout}>
+                            <LogOutButton />
+                        </form>
                     </div>
                 </div>
             </div>

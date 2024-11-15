@@ -1,7 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Shield } from "lucide-react";
-import { signOut } from "@/auth";
+import { logout } from "@/actions/logout";
+import { LogOutButton } from "./log-out-button";
 
 export const AccessDenied = () => (
     <div className="flex min-h-screen items-center justify-center p-4">
@@ -22,23 +22,8 @@ export const AccessDenied = () => (
                     </div>
                 </div>
 
-                <form
-                    action={async () => {
-                        "use server";
-                        await signOut({
-                            redirect: true,
-                            redirectTo: "/login"
-                        });
-                    }}
-                >
-                    <Button
-                        type="submit"
-                        variant="outline"
-                        size="lg"
-                        className="flex w-full items-center gap-3 border-0 bg-white/5 px-4 font-semibold text-white/80 transition-all duration-300 ease-out hover:bg-red-500/10 hover:text-red-500"
-                    >
-                        <span>Go Away</span>
-                    </Button>
+                <form action={logout}>
+                    <LogOutButton className="!w-full" />
                 </form>
             </CardContent>
         </Card>

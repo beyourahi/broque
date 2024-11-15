@@ -1,7 +1,7 @@
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { signIn } from "@/auth";
 import { Wallet2 } from "lucide-react";
+import { login } from "@/actions/login";
+import { LogInButton } from "@/components/log-in-button";
 
 const Login = () => (
     <div className="flex min-h-screen items-center justify-center p-4">
@@ -22,20 +22,8 @@ const Login = () => (
                     </div>
                 </div>
 
-                <form
-                    action={async () => {
-                        "use server";
-                        await signIn("google", { redirectTo: "/" });
-                    }}
-                >
-                    <Button
-                        type="submit"
-                        variant="outline"
-                        size="lg"
-                        className="flex w-full items-center gap-3 border-0 bg-white/5 px-4 font-semibold text-white/80 transition-all duration-300 ease-out hover:bg-emerald-500/10 hover:text-emerald-500"
-                    >
-                        <span>Log In</span>
-                    </Button>
+                <form action={login}>
+                    <LogInButton />
                 </form>
             </CardContent>
         </Card>

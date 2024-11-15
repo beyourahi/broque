@@ -1,5 +1,5 @@
 import "./globals.css";
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, Suspense } from "react";
 import { GeistSans } from "geist/font/sans";
 import { cn } from "@/lib/utils";
 import { brand } from "@/data";
@@ -18,7 +18,7 @@ const RootLayout = ({ children }: PropsWithChildren) => (
         >
             <div data-vaul-drawer-wrapper>
                 <div className="flex h-full min-h-[100dvh] flex-col bg-gradient-to-br from-zinc-950 via-black to-zinc-900">
-                    {children}
+                    <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
                 </div>
             </div>
         </body>
