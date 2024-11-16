@@ -1,7 +1,7 @@
 export const brand = {
     name: "broqué af",
     description: "Tracking my severely underpaid income and pesky expenses",
-    URl: "https://broqueaf.vercel.app"
+    URl: "https://broque.pages.dev"
 };
 
 export const PERMITTED_USERS = [

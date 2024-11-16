@@ -5,8 +5,6 @@ import { cn } from "@/lib/utils";
 import { brand } from "@/data";
 import { HomeSkeleton } from "@/components/home-skeleton";
 
-export const experimental_ppr = true;
-
 export const metadata = {
     title: brand.name,
     description: brand.description

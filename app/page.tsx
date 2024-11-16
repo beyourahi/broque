@@ -9,6 +9,8 @@ import { AccessDenied } from "@/components/access-denied";
 import { DesktopTransactionGrid } from "@/components/desktop-transaction-grid";
 import { MobileTransactionTabs } from "@/components/mobile-transaction-tabs";
 
+export const runtime = "edge";
+
 export default async function Home() {
     const session = await auth();
 
@@ -21,6 +23,11 @@ export default async function Home() {
     }
 
     const data = (await getAll()) as FinancialData;
+
+    if (!data) {
+        return <p className="text-center">No data found</p>;
+    }
+
     const summary = calculateFinancialSummary(data);
     const incomes = data.incomes;
     const expenses = data.expenses;
