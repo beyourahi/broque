@@ -12,9 +12,9 @@ This is our little corner of the digital world where we track our fabulous incom
 
 ### Features (My Eyes Only!)
 
--   **Income Tracker**: Where I watch my earnings crawl in. It's like a suspense movie, but slower.
--   **Expense Monitor**: A record of all the things I probably didn't need but definitely bought.🙂👌
--   **Current Balance**: It's like a mood ring for my wallet. Mostly blue.
+- **Income Tracker**: Where I watch my earnings crawl in. It's like a suspense movie, but slower.
+- **Expense Monitor**: A record of all the things I probably didn't need but definitely bought.🙂👌
+- **Current Balance**: It's like a mood ring for my wallet. Mostly blue.
 
 <br />
 
@@ -32,9 +32,9 @@ This project is as free as my spirit, but let's be real, it's just for me. No li
 
 ### Acknowledgments
 
--   To me, for being both the brains and the beauty behind this operation.
--   To my future self, for the inevitable 'thank you' for being so organized.
--   Coffee and late nights, the unsung heroes of this coding adventure.
+- To me, for being both the brains and the beauty behind this operation.
+- To my future self, for the inevitable 'thank you' for being so organized.
+- Coffee and late nights, the unsung heroes of this coding adventure.
 
 ---
 
